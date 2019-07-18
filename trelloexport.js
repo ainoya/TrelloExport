@@ -2143,6 +2143,7 @@ function loadData(exportFormat, bexportArchived, bExportComments, bExportCheckli
         // rejection
         function(reason) {
             console.error('===Error=== ' + reason);
+            console.log(reason.stack)
             $.growl.error({
                 title: "TrelloExport",
                 message: reason,
@@ -3188,10 +3189,11 @@ function createMarkdownExport(jsonComputedCards, bPrint, bckHTMLCardInfo, bchkHT
             mdOut += '#### Comments\n';
             for (i = 0; i < card.jsonComments.length; i++) {
                 var d = card.jsonComments[i].date;
+                var mCreator = card.jsonComments[i].memberCreator || {fullName: 'undefined'};
                 if (d)
-                    mdOut += '**' + d + ' ' + card.jsonComments[i].memberCreator.fullName + '**\n\n' + card.jsonComments[i].text + '\n\n';
+                    mdOut += '**' + d + ' ' + mCreator.fullName + '**\n\n' + card.jsonComments[i].text + '\n\n';
                 else
-                    mdOut += '**' + card.jsonComments[i].memberCreator.fullName + '**\n\n' + card.jsonComments[i].text + '\n\n';
+                    mdOut += '**' + mCreator.fullName + '**\n\n' + card.jsonComments[i].text + '\n\n';
             }
         }
 
